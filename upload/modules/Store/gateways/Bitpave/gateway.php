@@ -12,7 +12,11 @@ class Bitpave_Gateway extends GatewayBase {
     {
         $name = 'Bitpave';
         $settings = ROOT_PATH . '/modules/Store/gateways/Bitpave/gateway_settings/settings.php';
-        parent::__construct($name, $settings);
+        $author = '<a href="https://github.com/supercrafter100/" target="_blank" rel="nofollow noopener">Supercrafter100</a>';
+        $gateway_version = '1.5.2';
+        $store_version = '1.5.2';
+
+        parent::__construct($name, $author, $gateway_version, $store_version, $settings);
     }
 
     public function onCheckoutPageLoad(TemplateBase $template, Customer $customer): void
@@ -33,7 +37,7 @@ class Bitpave_Gateway extends GatewayBase {
             'client_secret' => $client_secret,
             'name' => $name,
             'wallet' => $wallet,
-            'price' => $order->getAmount()->getTotal(),
+            'price' => Store::fromCents($order->getAmount()->getTotalCents()),
             'custom_data' => $custom_data,
             'success_url' => rtrim(Util::getSelfURL(), '/') . URL::build('/store/process/', 'gateway=Bitpave&do=success'),
             'cancel_url' => rtrim(Util::getSelfURL(), '/') . URL::build('/store/process/', 'gateway=Bitpave&do=cancel'),
