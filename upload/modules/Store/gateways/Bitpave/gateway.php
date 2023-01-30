@@ -81,9 +81,8 @@ class Bitpave_Gateway extends GatewayBase {
                         'gateway_id' => $this->getId(),
                         'payment_id' => $order,
                         'transaction' => $order,
-                        'amount' => $response->price_usd,
+                        'amount_cents' => Store::toCents($response->price_usd),
                         'currency' => 'USD',
-                        'fee' => 0
                     ]);
                     break;
             }
