@@ -39,9 +39,9 @@ class Bitpave_Gateway extends GatewayBase {
             'wallet' => $wallet,
             'price' => Store::fromCents($order->getAmount()->getTotalCents()),
             'custom_data' => $custom_data,
-            'success_url' => rtrim(Util::getSelfURL(), '/') . URL::build('/store/process/', 'gateway=Bitpave&do=success'),
-            'cancel_url' => rtrim(Util::getSelfURL(), '/') . URL::build('/store/process/', 'gateway=Bitpave&do=cancel'),
-            'callback_url' => rtrim(Util::getSelfURL(), '/') . URL::build('/store/listener/', 'gateway=Bitpave')
+            'success_url' => rtrim(URL::getSelfURL(), '/') . URL::build('/store/process/', 'gateway=Bitpave&do=success'),
+            'cancel_url' => rtrim(URL::getSelfURL(), '/') . URL::build('/store/process/', 'gateway=Bitpave&do=cancel'),
+            'callback_url' => rtrim(URL::getSelfURL(), '/') . URL::build('/store/listener/', 'gateway=Bitpave')
         ]);
 
         if ($response->hasError()) {
