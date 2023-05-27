@@ -31,6 +31,7 @@ class Bitpave_Gateway extends GatewayBase {
         $wallet = StoreConfig::get('bitpave/wallet');
         $name = Output::getClean(SITE_NAME);
         $custom_data = json_encode(['invoiceNumber' => $order->data()->id]);
+        $currentURL = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
         $response = HttpClient::post('https://bitpave.com/api/checkout/create', [
             'client' => $client_id,
@@ -39,9 +40,9 @@ class Bitpave_Gateway extends GatewayBase {
             'wallet' => $wallet,
             'price' => Store::fromCents($order->getAmount()->getTotalCents()),
             'custom_data' => $custom_data,
-            'success_url' => rtrim(Util::getSelfURL(), '/') . URL::build('/store/process/', 'gateway=Bitpave&do=success'),
-            'cancel_url' => rtrim(Util::getSelfURL(), '/') . URL::build('/store/process/', 'gateway=Bitpave&do=cancel'),
-            'callback_url' => rtrim(Util::getSelfURL(), '/') . URL::build('/store/listener/', 'gateway=Bitpave')
+            'success_url' => '$currentURL/store/process/gateway=Bitpave&do=success',
+            'cancel_url' => '$currentURL/store/process/gateway=Bitpave&do=cancel',
+            'callback_url' => '$currentURL/store/process/gateway=Bitpave'
         ]);
 
         if ($response->hasError()) {
